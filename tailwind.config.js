@@ -19,4 +19,7 @@ export default {
     },
   },
   plugins: [require('daisyui'),],
+  daisyui: {
+    themes: ["light"], // Enables light and dark themes
+  },
 }
