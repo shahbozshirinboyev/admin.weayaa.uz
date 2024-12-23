@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import supabase from "../services/supabase";
+import supabase from "../../services/supabase";
+import RemoveNews from "./RemoveNews";
+import AddNews from "./AddNews";
 
 function News() {
   const [loading, setLoading] = useState(false);
@@ -22,7 +24,11 @@ function News() {
     <>
       <div className="container py-4 flex justify-between items-center">
         <button className="btn btn-sm"><i className="bi bi-house"></i></button>
-        <button className="btn btn-sm"><i className="bi bi-node-plus"></i> Add News</button>
+        <AddNews getData={getData} />
+      </div>
+
+      <div>
+        {news.length === 0 ? <div className="flex justify-center items-center py-12"> <i className="bi bi-database-fill-x mr-2"></i> <span>No data</span></div> : ""}
       </div>
 
       <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -32,7 +38,7 @@ function News() {
             <div key={news.id} className="border p-2 rounded-md">
               <div className="flex justify-between items-center pb-2">
                 <button className="btn btn-sm"><i className="bi bi-pencil"></i></button>
-                <button className="btn btn-sm"><i className="bi bi-trash"></i></button>
+                <RemoveNews id={news.id} getData={getData} />
               </div>
               <div>
                 
