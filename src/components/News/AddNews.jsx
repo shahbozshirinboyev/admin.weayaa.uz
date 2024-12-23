@@ -98,6 +98,13 @@ function AddNews({ getData }) {
       getData();
       setLoading(false);
       document.getElementById("addNews").close();
+      setPhotos({ urls: [], files: [] });
+      setNews({
+        title: "",
+        by: "",
+        link: "",
+        description: "",
+      });
     }
 
     setLoading(false);
