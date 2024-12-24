@@ -25,7 +25,7 @@ function News() {
 
   return (
     <>
-      <div className="container py-4 flex justify-between items-center">
+      <div className="container py-12 flex justify-between items-center">
         <button className="btn btn-sm">
           <i className="bi bi-house"></i>
         </button>
@@ -35,7 +35,7 @@ function News() {
       {loading && (
         <div className="flex justify-center items-center">
           <span className="loading loading-spinner"></span>
-          <span className="ml-2 text-[20px] font-semibold">Loading...</span>
+          <span className="ml-2 font-semibold">Loading...</span>
         </div>
       )}
 
