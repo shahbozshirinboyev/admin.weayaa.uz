@@ -3,19 +3,18 @@ import supabase from "../../services/supabase";
 
 function AddMember({ getData }) {
   const [loading, setLoading] = useState(false);
-  const [news, setNews] = useState({
-    title: "",
-    by: "",
-    link: "",
-    description: "",
+  const [member, setMember] = useState({
+    first_name: "",
+    last_name: "",
+    status: "",
   });
   const [photos, setPhotos] = useState({ urls: [], files: [] });
 
   const inputHandle = (e) => {
-    const { name, value, type } = e.target;
-    setNews((prevData) => ({
+    const { name, value } = e.target;
+    setMember((prevData) => ({
       ...prevData,
-      [name]: type === "radio" ? value === "true" : value,
+      [name]:  value,
     }));
   };
 
@@ -36,7 +35,7 @@ function AddMember({ getData }) {
   };
 
   const uploadImagesAndGetUrls = async (files) => {
-    const bucketName = "news";
+    const bucketName = "members";
     // Har bir faylni yuklash va URLni olish
     const uploadPromises = files.map(async (file) => {
       const filePath = `${Date.now()}_${file.name}`;
@@ -58,52 +57,38 @@ function AddMember({ getData }) {
     return urls.filter((url) => url !== null); // null qiymatlarni olib tashlaymiz
   };
 
-  const [desImg, setDesImg] = useState({ file: "", url: "" });
 
-  const handleDesImg = (e) => {
-    if (e.target.files[0]) {
-      setDesImg({
-        file: e.target.files[0],
-        url: URL.createObjectURL(e.target.files[0]),
-      });
-    }
-  };
 
-  const addNews = async (e) => {
+  const addMember = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    let images_news;
+    let image;
     if (photos.files.length !== 0) {
-      images_news = await uploadImagesAndGetUrls(photos.files);
+      image = await uploadImagesAndGetUrls(photos.files);
     } else {
-      images_news = [
-        "https://static.vecteezy.com/system/resources/thumbnails/008/695/917/small_2x/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg",
-      ];
+      image = ["https://static.vecteezy.com/system/resources/thumbnails/008/695/917/small_2x/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg",];
     }
 
-    const { data, error } = await supabase.from("news").insert([
+    const { data, error } = await supabase.from("members").insert([
       {
-        title: news.title,
-        by: news.by,
-        link: news.link,
-        description: news.description,
-        images: images_news,
+        first_name: member.first_name,
+        last_name: member.last_name,
+        status: member.status,
+        image: image,
       },
     ]);
 
     if (error) {
-      console.error("Xatolik:", error.message);
+      console.error(error.message);
     } else {
       getData();
       setLoading(false);
-      document.getElementById("addNews").close();
+      document.getElementById("addMember").close();
       setPhotos({ urls: [], files: [] });
-      setNews({
-        title: "",
-        by: "",
-        link: "",
-        description: "",
+      setMember({
+        first_name: "",
+        last_name: "",
+        status: "",
       });
     }
 
@@ -113,105 +98,98 @@ function AddMember({ getData }) {
   return (
     <>
       <button
-        onClick={() => document.getElementById("addNews").showModal()}
+        onClick={() => document.getElementById("addMember").showModal()}
         className="btn btn-sm"
       >
         <i className="bi bi-node-plus"></i>Add Member
       </button>
 
-      <dialog id="addNews" className="modal">
+      <dialog id="addMember" className="modal">
         <div className="modal-box max-w-2xl">
           <>
-            <form onSubmit={addNews}>
-              <label
-                htmlFor="selectPhotos"
-                className="mb-3 w-[120px] h-[120px] flex flex-col border border-dashed rounded-xl justify-center p-4 cursor-pointer select-none"
-              >
-                <div className="flex flex-col items-center">
+            <form onSubmit={addMember}>
+              <div className="flex gap-4">
+                <label
+                  htmlFor="selectPhotos"
+                  className="flex-shrink-0 w-[120px] h-[120px] flex flex-col border border-dashed rounded-xl justify-center p-4 cursor-pointer select-none"
+                >
+                  <div className="flex flex-col items-center">
+                    <span
+                      className={`${photos.urls.length === 0 ? "" : "hidden"}`}
+                    >
+                      <i className="bi bi-person-bounding-box text-[45px] opacity-50"></i>
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap justify-center items-center gap-4">
+                    {photos.urls.map((photo, index) => (
+                      <div key={index} className="relative">
+                        <span
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removePhoto(index);
+                          }}
+                          className="absolute -right-2 -top-2 bg-white hover:bg-red-100 w-[25px] h-[25px] border border-red-100 rounded-full p-1 flex justify-center items-center text-[10px]"
+                        >
+                          ❌
+                        </span>
+                        <img
+                          src={photo}
+                          className="w-[100px] h-[100px] object-cover border border-red-100"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <input
+                    id="selectPhotos"
+                    className="hidden"
+                    type="file"
+                    name="photos"
+                    multiple
+                    onChange={handlePhotos}
+                  />
+                </label>
 
-                  <span className={`${ photos.urls.length === 0 ? "" : "hidden" }`}>
-                     <i className="bi bi-person-bounding-box text-[45px] opacity-50"></i>
-                  </span>
-                  
-                </div>
-                <div className="flex flex-wrap justify-center items-center gap-4">
-                  {photos.urls.map((photo, index) => (
-                    <div key={index} className="relative">
-                      <span
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removePhoto(index);
-                        }}
-                        className="absolute -right-2 -top-2 bg-white hover:bg-red-100 w-[25px] h-[25px] border border-red-100 rounded-full p-1 flex justify-center items-center text-[10px]"
-                      >
-                        ❌
-                      </span>
-                      <img
-                        src={photo}
-                        className="w-[70px] h-[70px] border border-red-100"
+                <div className="w-full">
+                  <div className="grid grid-cols-2 gap-4">
+                    <label className="flex flex-col w-full mb-2">
+                      <span className="text-[15px]">First Name:</span>
+                      <input
+                        type="text"
+                        name="first_name"
+                        placeholder="First Name"
+                        value={member.first_name}
+                        onChange={inputHandle}
+                        className="border px-2 py-1"
                       />
-                    </div>
-                  ))}
+                    </label>
+                    <label className="flex flex-col w-full mb-2">
+                      <span className="text-[15px]">Last Name:</span>
+                      <input
+                        type="text"
+                        name="last_name"
+                        placeholder="Last Name"
+                        value={member.last_name}
+                        onChange={inputHandle}
+                        className="border px-2 py-1"
+                      />
+                    </label>
+                  </div>
+
+                  <label className="flex flex-col w-full mb-2">
+                    <span className="text-[15px]">Status:</span>
+                    <input
+                      type="text"
+                      name="status"
+                      placeholder="CEO | Designer | Coder"
+                      value={member.status}
+                      onChange={inputHandle}
+                      className="border px-2 py-1"
+                    />
+                  </label>
                 </div>
-                <input
-                  id="selectPhotos"
-                  className="hidden"
-                  type="file"
-                  name="photos"
-                  multiple
-                  onChange={handlePhotos}
-                />
-              </label>
-
-              <label className="flex flex-col w-full mb-2">
-                <span className="text-[15px]">Title:</span>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="News title"
-                  value={news.title}
-                  onChange={inputHandle}
-                  className="border px-2 py-1"
-                />
-              </label>
-
-              <div className="grid grid-cols-2 gap-4">
-                <label className="flex flex-col w-full mb-2">
-                  <span className="text-[15px]">by:</span>
-                  <input
-                    type="text"
-                    name="by"
-                    placeholder="by WeaYaa"
-                    value={news.by}
-                    onChange={inputHandle}
-                    className="border px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col w-full mb-2">
-                  <span className="text-[15px]">Link:</span>
-                  <input
-                    type="text"
-                    name="link"
-                    placeholder="https://weayaa.uz/news/4.html"
-                    value={news.link}
-                    onChange={inputHandle}
-                    className="border px-2 py-1"
-                  />
-                </label>
               </div>
 
-              <label className="flex flex-col w-full mb-2">
-                <span className="text-[15px]">Description:</span>
-                <textarea
-                  rows={5}
-                  type="text"
-                  name="description"
-                  placeholder="Description of News"
-                  value={news.description}
-                  onChange={inputHandle}
-                  className="border px-2 py-1"
-                ></textarea>
-              </label>
+              
 
               <button type="submit" className="mt-3 btn btn-sm w-full">
                 <span className={`${loading ? "hidden" : ""}`}>Add</span>
