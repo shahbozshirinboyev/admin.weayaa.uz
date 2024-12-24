@@ -9,6 +9,7 @@ function News() {
   const [news, setNews] = useState([]);
 
   const getData = async () => {
+    setLoading(true);
     const { data, error } = await supabase.from("news").select("*");
     if (error) {
       console.error(error);
@@ -16,6 +17,7 @@ function News() {
       setNews(data);
       console.log(data);
     }
+    setLoading(false);
   };
   useEffect(() => {
     getData();
@@ -30,8 +32,15 @@ function News() {
         <AddNews getData={getData} />
       </div>
 
+      {loading && (
+        <div className="flex justify-center items-center">
+          <span className="loading loading-spinner"></span>
+          <span className="ml-2 text-[20px] font-semibold">Loading...</span>
+        </div>
+      )}
+
       <div>
-        {news.length === 0 ? (
+        {!loading && news.length === 0 ? (
           <div className="flex justify-center items-center py-12">
             {" "}
             <i className="bi bi-database-fill-x mr-2"></i> <span>No data</span>
