@@ -2,6 +2,7 @@ import supabase from "../../services/supabase";
 import AddCategory from "./AddCategory";
 import { useState, useEffect } from "react";
 import RemoveCategory from "./RemoveCategory";
+import AddItem from "./AddItem";
 
 function Design() {
   const [loading, setLoading] = useState(false);
@@ -49,10 +50,15 @@ function Design() {
                     </div>
 
                     <div className="flex gap-2">
-                    <button className="btn btn-sm cursor-not-allowed">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                     <RemoveCategory id={category.id} getData={getData} />
+
+                      <AddItem category={category} getData={getData} />
+
+                      <button className="btn btn-sm cursor-not-allowed">
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      
+                      <RemoveCategory id={category.id} getData={getData} />
+
                     </div>
                     
                   </div>
@@ -63,31 +69,6 @@ function Design() {
                     </p>
                   </div>
                 </div>
-
-                {/* 
-                <div className="border px-2 py-1 mb-3 flex justify-start items-center">
-
-                  <p className="font-semibold w-full flex justify-start items-center">
-                    <span>Количество типов продуктов:</span>&nbsp;
-                    <span className="text-red-700">{item?.types}</span>
-                  </p>
-
-                  <button
-                    className="btn btn-sm"
-                    onClick={() => {
-                      document.getElementById("AddProductType").showModal();
-                      setSelectMenuInfo({
-                        menu_id: item.id,
-                        types: item.types,
-                      });
-                    }}
-                  >
-                    <i className="bi bi-plus-lg"></i>
-                    Добавить
-                  </button>
-
-                </div>
-                 */}
 
                 {/* Furniture type END */}
                 {category.items.length === 0 ? (
