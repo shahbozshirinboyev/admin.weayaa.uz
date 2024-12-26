@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import supabase from "../../services/supabase";
 import AddMember from "./AddMember";
+import RemoveMember from "./RemoveMember";
 
 function Members() {
   const [loading, setLoading] = useState(false);
@@ -48,24 +49,33 @@ function Members() {
       </div>
 
       <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {members.map((member)=>(
-            <div key={member.id} className="border border-red-700 flex gap-4">
+        {members.map((member) => (
+          <div
+            key={member.id}
+            className="border rounded-md flex justify-between gap-4 p-2"
+          >
+            <div className="flex gap-4">
+              <div className="w-[120px] justify-center items-center">
+                <img
+                  src={member.image[0]}
+                  className="w-[100px] h-[100px] object-cover border mx-auto rounded-full"
+                />
+              </div>
 
-                <div className="border w-full justify-center">
-                    <img src={member.image[0]} className="w-[120px] h-[120px] object-cover border mx-auto rounded-full"/>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                    
-                <div className="flex gap-2 justify-center items-center text-[20px] font-semibold]">
-                    <p>{member.first_name}</p>
-                    <p>{member.last_name}</p>
-                </div>
-                <div className="">
-                    <p className="">{member.status}</p>
-                </div>
-                </div>
-
+              <div className="flex flex-col justify-center font-semibold">
+                <p>First Name: {member.first_name}</p>
+                <p>Last Name: {member.last_name}</p>
+                <p>Status: {member.status}</p>
+              </div>
             </div>
+
+            <div className="flex flex-col justify-between">
+              <button className="btn btn-sm cursor-not-allowed">
+                <i className="bi bi-pencil"></i>
+              </button>
+              <RemoveMember getData={getData} id={member.id} />
+            </div>
+          </div>
         ))}
       </div>
     </>
