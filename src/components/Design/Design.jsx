@@ -1,6 +1,7 @@
 import supabase from "../../services/supabase";
 import AddCategory from "./AddCategory";
 import { useState, useEffect } from "react";
+import RemoveCategory from "./RemoveCategory";
 
 function Design() {
   const [loading, setLoading] = useState(false);
@@ -48,12 +49,10 @@ function Design() {
                     </div>
 
                     <div className="flex gap-2">
-                    <button className="btn btn-sm">
+                    <button className="btn btn-sm cursor-not-allowed">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button className="btn btn-sm">
-                      <i class="bi bi-trash"></i>
-                    </button>
+                     <RemoveCategory id={category.id} getData={getData} />
                     </div>
                     
                   </div>
