@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import supabase from "../../services/supabase";
 import AddMember from "./AddMember";
 import RemoveMember from "./RemoveMember";
+import EditMember from "./EditMember";
 
 function Members() {
   const [loading, setLoading] = useState(false);
@@ -70,9 +71,7 @@ function Members() {
             </div>
 
             <div className="flex flex-col justify-between">
-              <button className="btn btn-sm cursor-not-allowed">
-                <i className="bi bi-pencil"></i>
-              </button>
+              <EditMember getData={getData} member={member} />
               <RemoveMember getData={getData} id={member.id} />
             </div>
           </div>
