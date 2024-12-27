@@ -11,7 +11,7 @@ import Company from "./components/Company/Company";
 import SignIn from "./pages/SignIn";
 import ErrorPage from "./pages/ErrorPage";
 
-const access = false;
+const access = true;
 
 const routes = access
   ? createBrowserRouter([
