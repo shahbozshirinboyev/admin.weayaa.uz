@@ -3,17 +3,33 @@ import { useState, useEffect } from "react";
 
 function RootLayout() {
   const [rotate, setRotate] = useState(false);
-  const [counter, setCounter] = useState(24);
+
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(20);
+  const [seconds, setSeconds] = useState(59);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (counter > 0) {
-        setCounter(counter - 1);  // counterni 1 ga kamaytirish
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      } else {
+        if (minutes > 0) {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        } else {
+          if (hours > 0) {
+            setHours(hours - 1);
+            setMinutes(59);
+            setSeconds(59);
+          } else {
+            clearInterval(interval);
+          }
+        }
       }
     }, 1000);
 
-    return () => clearInterval(interval);  // Komponent unmonting bo'lganda intervalni to'xtatish
-  }, [counter]);
+    return () => clearInterval(interval);
+  }, [seconds, minutes, hours]);
 
   const handleClickRefresh = () => {
     setRotate(true);
@@ -32,12 +48,12 @@ function RootLayout() {
         </div>
 
         <div className="flex gap-4">
-          
-        {/* <span className="countdown font-mono text-2xl">
-          <span style={`{"--value":10}`}></span>:
-          <span style={`{"--value":24}`}></span>:
-          <span style={`{"--value":${counter}}`}></span>
-        </span> */}
+
+          <span className="countdown font-mono md:text-xl flex justify-center items-center">
+            <span style={{ "--value": hours }}></span>:
+            <span style={{ "--value": minutes }}></span>:
+            <span style={{ "--value": seconds }}></span>
+          </span>
 
           <button onClick={() => { handleClickRefresh(); }} className={`btn btn-sm ${rotate ? 'bg-primary text-white hover:text-white border-0 hover:bg-primary' : ''}`}>
             <i className={`bi bi-arrow-clockwise flex justify-center items-center ${rotate ? 'animate-spin' : ''}`}></i>
