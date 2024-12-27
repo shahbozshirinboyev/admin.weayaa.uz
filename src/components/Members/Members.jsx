@@ -15,7 +15,7 @@ function Members() {
       console.error(error);
     } else {
       setMembers(data);
-      console.log(data);
+      // console.log(data);
     }
     setLoading(false);
   };
@@ -49,7 +49,7 @@ function Members() {
         )}
       </div>
 
-      <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 pb-4">
         {members.map((member) => (
           <div
             key={member.id}

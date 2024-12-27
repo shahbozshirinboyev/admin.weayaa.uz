@@ -10,7 +10,7 @@ function Design() {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState([]);
 
-  console.log(category);
+  // console.log(category);
 
   const getData = async () => {
     setLoading(true);
@@ -19,7 +19,7 @@ function Design() {
       console.error(error);
     } else {
       setCategory(data);
-      console.log(data);
+      // console.log(data);
     }
     setLoading(false);
   };

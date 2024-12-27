@@ -15,7 +15,7 @@ function News() {
       console.error(error);
     } else {
       setNews(data);
-      console.log(data);
+      // console.log(data);
     }
     setLoading(false);
   };
