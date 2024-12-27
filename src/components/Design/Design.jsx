@@ -77,7 +77,7 @@ function Design() {
                 )}
 
                 {category?.items && (
-                  <ul className="grid grid-cols-2 lg:grid-cols-2 gap-4 pb-4">
+                  <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
                     {category.items.map((item) => (
                       <div
                         className="border hover:border-green-500 p-4 group transition-all duration-300 ease-in-out transform hover:scale-100 flex flex-col justify-between"
@@ -93,7 +93,7 @@ function Design() {
 
                           <div className="flex justify-center items-center gap-4">
                             <EditItem />
-                            <RemoveItem />
+                            <RemoveItem id={item.id} getData={getData} />
                           </div>
                         </div>
                         <div
@@ -105,7 +105,7 @@ function Design() {
                             alt=""
                           />
                         </div>
-                        <div className="flex justify-center items-center gap-4">
+                        <div className="flex flex-wrap justify-center items-center gap-4">
                           {item.images.map((image, index) => (
                             <img
                               key={index}
