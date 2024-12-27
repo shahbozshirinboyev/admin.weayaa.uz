@@ -7,6 +7,7 @@ import RootLayout from "./layouts/RootLayout";
 import News from "./components/News/News";
 import Members from "./components/Members/Members";
 import Design from "./components/Design/Design";
+import Company from "./components/Company/Company";
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const routes = createBrowserRouter([
         path: "members",
         element: <Members />
       },
+      {
+        path: "company",
+        element: <Company />
+      }
     ]
   }
 ]);
