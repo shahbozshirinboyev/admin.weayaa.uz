@@ -30,13 +30,32 @@ function Design() {
   return (
     <>
       <div className="container py-4 flex justify-between items-center">
-        <button className="btn btn-sm">
+        <button className="btn btn-sm invisible">
           <i className="bi bi-house"></i>
         </button>
         <AddCategory getData={getData} />
       </div>
 
       <div className="container">
+
+      {loading && (
+        <div className="flex justify-center items-center py-4">
+          <span className="loading loading-spinner"></span>
+          <span className="ml-2 font-semibold">Loading...</span>
+        </div>
+      )}
+
+      <div>
+        {!loading && category.length === 0 ? (
+          <div className="flex justify-center items-center py-4">
+            {" "}
+            <i className="bi bi-database-fill-x mr-2"></i> <span>No data</span>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+
         {category
           .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
           .map((category) => (
@@ -91,7 +110,7 @@ function Design() {
                             </span>
                           </div>
 
-                          <div className="flex justify-center items-center gap-4">
+                          <div className="flex justify-center items-center gap-2">
                             <EditItem />
                             <RemoveItem id={item.id} getData={getData} />
                           </div>

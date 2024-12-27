@@ -25,14 +25,14 @@ function Members() {
   return (
     <>
       <div className="container py-4 flex justify-between">
-        <button className="btn btn-sm">
+        <button className="btn btn-sm invisible">
           <i className="bi bi-house"></i>
         </button>
         <AddMember getData={getData} />
       </div>
 
       {loading && (
-        <div className="flex justify-center items-center py-12">
+        <div className="flex justify-center items-center py-4">
           <span className="loading loading-spinner"></span>
           <span className="ml-2 font-semibold">Loading...</span>
         </div>
@@ -40,7 +40,7 @@ function Members() {
 
       <div>
         {!loading && members.length === 0 ? (
-          <div className="flex justify-center items-center py-12">
+          <div className="flex justify-center items-center py-4">
             {" "}
             <i className="bi bi-database-fill-x mr-2"></i> <span>No data</span>
           </div>

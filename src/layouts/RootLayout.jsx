@@ -4,10 +4,17 @@ function RootLayout() {
   return (
     <>
 
-      <menu className="container mt-4 flex gap-4">
-        <NavLink to="/news" className="btn btn-sm">News</NavLink>
-        <NavLink to="/design" className="btn btn-sm">Design</NavLink>
-        <NavLink to="/members" className="btn btn-sm">Members</NavLink>
+      <menu className="container mt-4 flex justify-between items-center">
+        <div className="flex gap-4">
+            <NavLink to="/members" className={({ isActive }) => isActive ? "btn btn-sm bg-primary text-white" : "btn btn-sm border-0" }>Members</NavLink>
+            <NavLink to="/design" className={({ isActive }) => isActive ? "btn btn-sm bg-primary text-white" : "btn btn-sm border-0" }>Design</NavLink>
+            <NavLink to="/news" className={({ isActive }) => isActive ? "btn btn-sm bg-primary text-white" : "btn btn-sm border-0" }>News</NavLink>
+        </div>
+        <div className="flex gap-4">
+            <button className="btn btn-sm">
+                <i className="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>
       </menu>
 
       <Outlet />

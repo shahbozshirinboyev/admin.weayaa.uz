@@ -25,8 +25,8 @@ function News() {
 
   return (
     <>
-      <div className="container py-12 flex justify-between items-center">
-        <button className="btn btn-sm">
+      <div className="container py-4 flex justify-between items-center">
+        <button className="btn btn-sm invisible">
           <i className="bi bi-house"></i>
         </button>
         <AddNews getData={getData} />
@@ -55,7 +55,7 @@ function News() {
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
           .map((news) => (
             <div key={news.id} className="border p-2 rounded-md">
-              <div className="flex justify-between items-center pb-2">
+              <div className="flex justify-end gap-2 items-center pb-2">
                 <EditNews news={news} getData={getData} />
                 <RemoveNews id={news.id} getData={getData} />
               </div>
