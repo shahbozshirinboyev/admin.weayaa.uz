@@ -19,6 +19,7 @@ function AddItem({category, getData}) {
   const [item, setItem] = useState({
     id: uuidv4(),
     name: "",
+    description: "",
   });
   const inputHandle = (e) => {
     const { name, value } = e.target;
@@ -118,6 +119,7 @@ function AddItem({category, getData}) {
       setItem({
         id: uuidv4(),
         name: "",
+        description: "",
       })
       setThumb({ file: "", url: "" });
       setPhotos({ urls: [], files: [] });
@@ -146,13 +148,13 @@ function AddItem({category, getData}) {
                     } w-auto h-[90px] object-cover mb-1`}
                   />
                   <p className={`text-[11px] py-1 ${thumb.url ? "hidden" : ""}`}>
-                  Выбрать только PNG/JPG
+                  thumb
                   </p>
                   <label
                     className={`text-[12px] btn btn-xs ${thumb.url ? "" : ""}`}
                     htmlFor="selectpng"
                   >
-                    Выбрать PNG/JPG
+                    Select PNG/JPG
                   </label>
                   <input
                     className="hidden"
@@ -164,13 +166,24 @@ function AddItem({category, getData}) {
                 </div>
                 <div className="flex flex-col px-6 w-full">
                   <label htmlFor="" className="flex flex-col">
-                    <span>Названия:</span>
+                    <span>Title:</span>
                     <input
                       name="name"
                       value={item.name}
                       onChange={inputHandle}
                       className="border px-2 py-1"
-                      placeholder="Угловые диваны"
+                      placeholder="Title"
+                      type="text"
+                    />
+                  </label>
+                  <label htmlFor="" className="flex flex-col">
+                    <span>Description:</span>
+                    <input
+                      name="description"
+                      value={item.description}
+                      onChange={inputHandle}
+                      className="border px-2 py-1"
+                      placeholder="Description"
                       type="text"
                     />
                   </label>
@@ -179,7 +192,7 @@ function AddItem({category, getData}) {
               </div>
               <label
                 htmlFor="selectPhotos"
-                className="mb-3 flex flex-col border border-dashed rounded-xl justify-start p-4 cursor-pointer select-none"
+                className="mb-3 flex flex-col border border-dashed rounded-xl justify-start p-4 mt-4 cursor-pointer select-none"
               >
                 <div className="flex flex-col items-center">
                   <span

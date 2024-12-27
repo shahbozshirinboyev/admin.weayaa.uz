@@ -3,6 +3,8 @@ import AddCategory from "./AddCategory";
 import { useState, useEffect } from "react";
 import RemoveCategory from "./RemoveCategory";
 import AddItem from "./AddItem";
+import EditItem from "./EditItem";
+import RemoveItem from "./RemoveItem";
 
 function Design() {
   const [loading, setLoading] = useState(false);
@@ -38,29 +40,23 @@ function Design() {
         {category
           .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
           .map((category) => (
-            <div key={category.id} >
+            <div key={category.id}>
               <div className="border my-4 px-4 transition-all duration-300 hover:border-sky-500">
-
                 <div className="border my-2 p-2">
-
                   <div className="text-xl md:text-2xl lg:text-3xl font-bold flex gap-4 justify-between items-center">
-
                     <div className="flex justify-start items-center gap-4">
                       <h1 className="text-[20px]">{category?.category}</h1>
                     </div>
 
                     <div className="flex gap-2">
-
                       <AddItem category={category} getData={getData} />
 
                       <button className="btn btn-sm cursor-not-allowed">
                         <i className="bi bi-pencil"></i>
                       </button>
-                      
-                      <RemoveCategory id={category.id} getData={getData} />
 
+                      <RemoveCategory id={category.id} getData={getData} />
                     </div>
-                    
                   </div>
 
                   <div className="flex py-2">
@@ -81,41 +77,46 @@ function Design() {
                 )}
 
                 {category?.items && (
-                  <ul className="grid grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                    {category.items.map((product, index) => (
+                  <ul className="grid grid-cols-2 lg:grid-cols-2 gap-4 pb-4">
+                    {category.items.map((item) => (
                       <div
                         className="border hover:border-green-500 p-4 group transition-all duration-300 ease-in-out transform hover:scale-100 flex flex-col justify-between"
-                        key={index}
+                        key={item.id}
                       >
                         <div className="flex justify-start items-start">
                           <div className="w-full">
-                            <h1 className="font-semibold">{product.name}</h1>
+                            <h1 className="font-semibold">{item.name}</h1>
                             <span className="font-bold opacity-40 text-[14px]">
-                              {product.price}
+                              {item.price}
                             </span>
                           </div>
 
-                          {/* <div className="flex justify-center items-center gap-4">
-                            <EditProductType productType={product} getData={getData} />
-                            <RemoveProductType id={product.id} getData={getData} />
-                          </div> */}
+                          <div className="flex justify-center items-center gap-4">
+                            <EditItem />
+                            <RemoveItem />
+                          </div>
                         </div>
                         <div
-                          //   onClick={() => {
-                          //     setActiveType(false);
-                          //     setActiveProducts(product.products);
-                          //   }}
                           className="py-6 flex justify-center items-end mt-2 cursor-pointer"
                         >
-                          <i className="bi bi-chevron-right opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
                           <img
-                            src={product.image}
-                            className="mx-auto h-[50px] transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                            src={item.thumb}
+                            className="mx-auto h-[50px] transition-all duration-300 ease-in-out transform"
                             alt=""
                           />
                         </div>
-                        <div className="text-justify text-[12px]">
-                          {product.description}
+                        <div className="flex justify-center items-center gap-4">
+                          {item.images.map((image, index) => (
+                            <img
+                              key={index}
+                              src={image}
+                              className="mx-auto h-[50px] transition-all duration-300 ease-in-out transform"
+                              alt=""
+                            />
+                          ))}
+                        </div>
+                        <div className="text-justify text-[12px] mt-4">
+                          {item.description}
                         </div>
                       </div>
                     ))}

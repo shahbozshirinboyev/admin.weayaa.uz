@@ -1,15 +1,15 @@
 import React from 'react'
 
-function RemoveItem() {
+function EditItem() {
   return (
     <>
-      <button
+        <button
         // onClick={() => { document.getElementById(`RemoveCategory${id}`).showModal(); }}
-        className="btn btn-sm">
-        <i className="bi bi-trash"></i>
+        className="btn btn-sm cursor-not-allowed">
+        <i className="bi bi-pencil"></i>
       </button>
     </>
   )
 }
 
-export default RemoveItem
+export default EditItem
