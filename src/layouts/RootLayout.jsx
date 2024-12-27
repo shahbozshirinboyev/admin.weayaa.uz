@@ -1,6 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
 
 function RootLayout() {
+    const [rotate, setRotate] = useState(false);
+
+  const handleClickRefresh = () => {
+    setRotate(true);
+    setTimeout(() => setRotate(false), 1000);
+    setTimeout(() =>  window.location.reload(), 1000);
+  };
   return (
     <>
 
@@ -11,8 +19,8 @@ function RootLayout() {
             <NavLink to="/news" className={({ isActive }) => isActive ? "btn btn-sm bg-primary text-white" : "btn btn-sm border-0" }>News</NavLink>
         </div>
         <div className="flex gap-4">
-            <button className="btn btn-sm">
-                <i className="bi bi-arrow-clockwise"></i>
+            <button onClick={() => { handleClickRefresh(); }} className={`btn btn-sm ${rotate ? 'bg-primary text-white hover:text-white border-0 hover:bg-primary' : ''}`}>
+                <i className={`bi bi-arrow-clockwise flex justify-center items-center ${rotate ? 'animate-spin' : ''}`}></i>
             </button>
         </div>
       </menu>
